@@ -1,6 +1,6 @@
 {
   "name": "惠安館文本查詢",
-  "description": "An elegant, minimalist web application for literature students to ask questions about a novel with integrated PDF viewing.",
+  "description": "專為文學研究設計的高雅導讀助手，結合 AI 問答與 PDF 動態定位功能，協助理解經典著作《城南舊事》。",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

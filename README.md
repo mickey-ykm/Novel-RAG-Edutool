@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 惠安館文本查詢 — AI 文學導讀助手
 
-# Run and deploy your AI Studio app
+這是一個專為中文科學生設計的 AI 輔導工具，旨在深入探索林海音經典著作《城南舊事》中的〈惠安館〉篇章。透過先進的生成式 AI 技術，本系統能協助讀者在繁複的文字中精準定位、分析角色細節並深化對文學文本的理解。
 
-This contains everything you need to run your app locally.
+## 🌟 核心功能
 
-View your app in AI Studio: https://ai.studio/apps/13d4c75e-09cb-45e0-9bd6-ad989464898f
+### 1. AI 文本深度分析
+透過整合 Gemini 3 系列模型，系統能即時回答關於〈惠安館〉的各種文學問題，包括角色動機、情節隱喻及歷史背景。
 
-## Run Locally
+### 2. 精準引述與自動定位
+所有 AI 回答均嚴格基於原著文本。系統會提供多個文本引述（References），使用者點擊「定位」按鈕後，導覽介面將自動跳轉至 PDF 相應頁面，並以醒目的黃色標示該段原文。
 
-**Prerequisites:**  Node.js
+### 3. 排版美學與學術介面
+採用「社論美學」（Editorial Aesthetic）設計風格，提供米白色背景與清晰的排版，打造無干擾的閱讀環境，適合長時間研究與思索。
 
+### 4. 隱私與安全性
+系統不儲存您的 API 金鑰。使用者需自行在設定選單中輸入 Google Gemini API Key，金鑰將僅儲存於您的瀏覽器本地空間（LocalStorage），確保個人隱私安全。
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+## 🚀 開始使用
+
+### 步驟一：進入系統
+輸入預設的教室密碼進入主畫面。
+
+### 步驟二：配置 AI 設定
+點擊右上角的「設定」圖標，輸入您的 **Gemini API Key**。
+*   您可以前往 [Google AI Studio](https://aistudio.google.com/app/apikey) 免費獲取金鑰。
+
+### 步驟三：提問與動態導讀
+在右側聊天視窗中輸入您的問題，例如：
+*   「秀貞在故事中提到了哪些關於思康哥的回憶？」
+*   「英子對惠安館的恐懼是如何隨著故事發展而改變的？」
+
+---
+
+## 🛠️ 技術架構
+
+*   **前端框架**: React (Vite) + Tailwind CSS
+*   **動畫庫**: Motion
+*   **圖表與圖標**: Lucide React
+*   **PDF 渲染**: React-PDF
+*   **AI 引擎**: Google GenAI (Gemini 3 Flash)
+*   **後端**: Express.js (處理基礎認證)
+
+---
+
+**© 2026 李振邦導師 . 版權所有**
