@@ -20,19 +20,10 @@ interface PdfViewerProps {
 export default function PdfViewer({ page, onPageChange, numPages: totalPages, highlightText }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
-  // Construct absolute URL based on the current window location to ensure react-pdf correctly fetches
-  // regardless of sub-path routing
-  const getPdfUrl = () => {
-    // If running in development or root
-    if (import.meta.env.BASE_URL === '/' || import.meta.env.BASE_URL === './') {
-      return 'book.pdf';
-    }
-    // Remove leading/trailing dot slashes if any
-    const base = import.meta.env.BASE_URL.replace(/^\.\//, '');
-    return `${window.location.origin}${base.startsWith('/') ? '' : '/'}${base}book.pdf`;
-  };
   
-  const pdfUrl = getPdfUrl();
+  // Use browser's native URL resolution to ensure it respects exactly where the page is hosted
+  // (e.g. https://mickey-ykm.github.io/Novel-RAG-Edutool/book.pdf)
+  const pdfUrl = new URL('book.pdf', window.location.href).toString();
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -122,6 +113,8 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
           <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={(error) => console.error('Error while loading document!', error)}
+            onSourceError={(error) => console.error('Error while loading document source!', error)}
             loading={
               <div className="flex flex-col items-center justify-center p-20 text-[#999]">
                 <div className="w-8 h-8 border-2 border-editorial-accent border-t-transparent rounded-full animate-spin mb-4" />

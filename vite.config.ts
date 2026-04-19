@@ -6,7 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: './',
+    base: '/Novel-RAG-Edutool/',
     plugins: [react(), tailwindcss()],
     define: {
       // API Key is managed via user settings in the frontend
