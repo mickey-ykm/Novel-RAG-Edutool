@@ -20,7 +20,19 @@ interface PdfViewerProps {
 export default function PdfViewer({ page, onPageChange, numPages: totalPages, highlightText }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
-  const pdfUrl = `${import.meta.env.BASE_URL}book.pdf`;
+  // Construct absolute URL based on the current window location to ensure react-pdf correctly fetches
+  // regardless of sub-path routing
+  const getPdfUrl = () => {
+    // If running in development or root
+    if (import.meta.env.BASE_URL === '/' || import.meta.env.BASE_URL === './') {
+      return 'book.pdf';
+    }
+    // Remove leading/trailing dot slashes if any
+    const base = import.meta.env.BASE_URL.replace(/^\.\//, '');
+    return `${window.location.origin}${base.startsWith('/') ? '' : '/'}${base}book.pdf`;
+  };
+  
+  const pdfUrl = getPdfUrl();
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
