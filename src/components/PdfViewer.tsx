@@ -17,7 +17,7 @@ interface PdfViewerProps {
 export default function PdfViewer({ page, onPageChange, numPages: totalPages, highlightText }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
-  const pdfUrl = `/book.pdf`;
+  const pdfUrl = `${import.meta.env.BASE_URL}book.pdf`;
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
