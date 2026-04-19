@@ -25,7 +25,7 @@ async function startServer() {
   });
 
   // Simple Auth Middleware
-  const classroomPassword = process.env.CLASSROOM_PASSWORD || 'classroom123';
+  const classroomPassword = process.env.CLASSROOM_PASSWORD || 'pong';
 
   app.post('/api/auth/login', (req, res) => {
     const { password } = req.body;

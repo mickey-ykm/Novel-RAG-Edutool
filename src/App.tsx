@@ -39,7 +39,7 @@ export default function App() {
 
   const handleLogin = async (password: string) => {
     // Perform simple client-side check since we're now a static app
-    if (password === 'classroom123') {
+    if (password === 'pong') {
       sessionStorage.setItem('auth_token', 'class-access-granted');
       setIsAuthenticated(true);
     } else {
