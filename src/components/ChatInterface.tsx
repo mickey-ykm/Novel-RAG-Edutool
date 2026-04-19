@@ -86,14 +86,14 @@ export default function ChatInterface({ onPageRequest, onQuoteRequest, apiKey }:
   };
 
   return (
-    <div className="flex flex-col h-full bg-white font-editorial-sans">
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 scroll-smooth">
+    <div className="flex flex-col h-full bg-white font-editorial-sans w-full content-start">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8 scroll-smooth">
         {messages.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-30">
+          <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-30 px-4">
             <Bot size={48} className="text-editorial-ink" />
             <div className="font-editorial-serif">
-              <p className="text-xl font-bold text-black italic">探索文學的深度</p>
-              <p className="text-sm mt-1">請輸入您的問題，與 AI 導讀專家對話</p>
+              <p className="text-lg sm:text-xl font-bold text-black italic">探索文學的深度</p>
+              <p className="text-xs sm:text-sm mt-1">請輸入您的問題，與 AI 導讀專家對話</p>
             </div>
           </div>
         )}

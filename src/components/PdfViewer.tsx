@@ -8,8 +8,6 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
-import bookPdfUrl from '/book.pdf?url';
-
 interface PdfViewerProps {
   page: number;
   onPageChange: (page: number) => void;
@@ -21,8 +19,9 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
   
-  // Use Vite's native URL import logic for robust deployment
-  const pdfUrl = bookPdfUrl;
+  // Use Vite's injected BASE_URL so it resolves relative to the GitHub Pages subpath at runtime
+  // This avoids build errors when the file is excluded via .gitignore locally
+  const pdfUrl = `${import.meta.env.BASE_URL}book.pdf`;
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -54,22 +53,22 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
   return (
     <div className="w-full h-full bg-editorial-viewer flex flex-col items-center relative overflow-hidden font-editorial-sans">
       {/* Editorial Navigation Bar */}
-      <div className="w-full bg-white border-b border-editorial-border py-2 px-6 flex items-center justify-between z-20 shrink-0">
-        <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#999]">
+      <div className="w-full bg-white border-b border-editorial-border py-2 px-3 sm:px-6 flex flex-col sm:flex-row items-center justify-between z-20 shrink-0 gap-2 sm:gap-0">
+        <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#999] truncate w-full text-center sm:text-left sm:w-auto">
           《城南舊事》-〈惠安館〉 — 文本導覽
         </div>
         
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between w-full sm:w-auto gap-2 sm:gap-6">
           {/* Zoom Controls */}
-          <div className="flex items-center gap-4 bg-[#f8f8f8] px-3 py-1 rounded-sm border border-editorial-border">
+          <div className="flex items-center gap-2 sm:gap-4 bg-[#f8f8f8] px-2 sm:px-3 py-1 rounded-sm border border-editorial-border">
             <button 
               onClick={() => setScale(prev => Math.max(0.5, prev - 0.1))}
               className="text-[#666] hover:text-black transition-colors"
               title="縮小"
             >
-              <ZoomOut size={16} />
+              <ZoomOut size={16} className="w-4 h-4 sm:w-4 sm:h-4" />
             </button>
-            <span className="text-[10px] font-bold text-editorial-ink min-w-[40px] text-center">
+            <span className="text-[10px] font-bold text-editorial-ink min-w-[32px] sm:min-w-[40px] text-center">
               {Math.round(scale * 100)}%
             </span>
             <button 
@@ -77,22 +76,22 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
               className="text-[#666] hover:text-black transition-colors"
               title="放大"
             >
-              <ZoomIn size={16} />
+              <ZoomIn size={16} className="w-4 h-4 sm:w-4 sm:h-4" />
             </button>
           </div>
 
           {/* Page Navigation */}
-          <div className="flex items-center gap-3 bg-[#f8f8f8] px-2 py-1 rounded-sm border border-editorial-border">
+          <div className="flex items-center gap-2 sm:gap-3 bg-[#f8f8f8] px-2 py-1 rounded-sm border border-editorial-border">
             <button 
               onClick={handlePrevPage}
               disabled={page <= 1}
               className="text-[#666] hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               title="上一頁"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={16} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </button>
-            <div className="text-[10px] font-bold text-editorial-accent tracking-widest uppercase min-w-[80px] text-center">
-              PAGE {page} / {numPages}
+            <div className="text-[10px] font-bold text-editorial-accent tracking-widest uppercase min-w-[60px] sm:min-w-[80px] text-center">
+              P.<span className="sm:hidden">{page}</span><span className="hidden sm:inline">AGE {page} / {numPages}</span>
             </div>
             <button 
               onClick={handleNextPage}
@@ -100,14 +99,14 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
               className="text-[#666] hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               title="下一頁"
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={16} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
             </button>
           </div>
         </div>
       </div>
       
       {/* Scrollable PDF Area */}
-      <div className="flex-1 w-full overflow-auto flex justify-center p-8 bg-editorial-viewer">
+      <div className="flex-1 w-full overflow-auto flex justify-center p-2 sm:p-8 bg-editorial-viewer">
         <div className="shadow-[0_15px_50px_rgba(0,0,0,0.08)] bg-white">
           <Document
             file={pdfUrl}
