@@ -21,9 +21,9 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
   
-  // Use browser's native URL resolution to ensure it respects exactly where the page is hosted
-  // (e.g. https://mickey-ykm.github.io/Novel-RAG-Edutool/book.pdf)
-  const pdfUrl = new URL('book.pdf', window.location.href).toString();
+  // Safely use Vite's injected BASE_URL (which we set to /Novel-RAG-Edutool/)
+  // This avoids the classic missing trailing slash bug where /Novel-RAG-Edutool resolves to /book.pdf instead of /Novel-RAG-Edutool/book.pdf
+  const pdfUrl = `${import.meta.env.BASE_URL}book.pdf`;
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
