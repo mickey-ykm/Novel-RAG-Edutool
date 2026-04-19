@@ -4,11 +4,11 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Configure PDF.js worker using Vite's URL handling for local bundling
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+// Configure PDF.js worker securely via Vite's static asset URL import
+import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+
+import bookPdfUrl from '/book.pdf?url';
 
 interface PdfViewerProps {
   page: number;
@@ -21,9 +21,8 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
   const [numPages, setNumPages] = useState<number>(totalPages);
   const [scale, setScale] = useState(1.1);
   
-  // Safely use Vite's injected BASE_URL (which we set to /Novel-RAG-Edutool/)
-  // This avoids the classic missing trailing slash bug where /Novel-RAG-Edutool resolves to /book.pdf instead of /Novel-RAG-Edutool/book.pdf
-  const pdfUrl = `${import.meta.env.BASE_URL}book.pdf`;
+  // Use Vite's native URL import logic for robust deployment
+  const pdfUrl = bookPdfUrl;
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -113,8 +112,8 @@ export default function PdfViewer({ page, onPageChange, numPages: totalPages, hi
           <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={(error) => console.error('Error while loading document!', error)}
-            onSourceError={(error) => console.error('Error while loading document source!', error)}
+            onLoadError={(error) => console.error('Error while loading document!', error.message || error)}
+            onSourceError={(error) => console.error('Error while loading document source!', error.message || error)}
             loading={
               <div className="flex flex-col items-center justify-center p-20 text-[#999]">
                 <div className="w-8 h-8 border-2 border-editorial-accent border-t-transparent rounded-full animate-spin mb-4" />
