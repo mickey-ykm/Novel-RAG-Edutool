@@ -32,22 +32,15 @@ export default function App() {
   };
 
   const checkAuth = async () => {
-    try {
-      const res = await fetch('/api/auth/check');
-      const data = await res.json();
-      setIsAuthenticated(data.authenticated);
-    } catch (error) {
-      setIsAuthenticated(false);
-    }
+    // Replaced backend fetch with local session storage check for static deployment
+    const authStatus = sessionStorage.getItem('auth_token');
+    setIsAuthenticated(authStatus === 'class-access-granted');
   };
 
   const handleLogin = async (password: string) => {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    });
-    if (res.ok) {
+    // Perform simple client-side check since we're now a static app
+    if (password === 'classroom123') {
+      sessionStorage.setItem('auth_token', 'class-access-granted');
       setIsAuthenticated(true);
     } else {
       throw new Error('Unauthorized');
@@ -55,7 +48,7 @@ export default function App() {
   };
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    sessionStorage.removeItem('auth_token');
     setIsAuthenticated(false);
   };
 
