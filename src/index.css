@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-editorial-bg: #F9F7F2;
+  --color-editorial-ink: #1A1A1A;
+  --color-editorial-accent: #8B2E2E;
+  --color-editorial-border: #D1CEC7;
+  --color-editorial-viewer: #EAE8E3;
+  
+  --font-editorial-serif: "Georgia", "Songti TC", "STSong", serif;
+  --font-editorial-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+@layer base {
+  body {
+    @apply bg-editorial-bg text-editorial-ink font-editorial-sans;
+  }
+}
